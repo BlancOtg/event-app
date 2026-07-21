@@ -6,6 +6,8 @@ const EventForm = () => {
     eventDate: "",
     eventLocation: "",
     eventDescription: "",
+    eventCategory: "",
+    eventStatus: "",
   });
 
   return (
@@ -54,9 +56,43 @@ const EventForm = () => {
             onChange={(e) => setData({ ...data, eventDescription: e.target.value })}
           ></textarea>
         </div>
+        <div className="p-2 flex flex-row gap-2 justify-around">
+
+        <div className="p-2 flex flex-col gap-2 w-2xl">
+          <label htmlFor="eventCategory" className="flex text-left">Event Category</label>
+          <select
+            name="eventCategory"
+            id="eventCategory"
+            className="border border-gray-300 rounded p-2 w-full"
+            onChange={(e) => setData({ ...data, eventCategory: e.target.value })}
+          >
+            <option value="">Select a category</option>
+            <option value="conference">Conference</option>
+            <option value="workshop">Workshop</option>
+            <option value="meetup">Meetup</option>
+            <option value="webinar">Webinar</option>
+          </select>            
+        </div>
+        <div className="p-2 flex flex-col w-2xl gap-2">
+          <label htmlFor="eventStatus" className="flex text-left">Event Status</label>
+          <select
+            name="eventStatus"
+            id="eventStatus"
+            className="border border-gray-300 rounded p-2 w-full"
+            onChange={(e) => setData({ ...data, eventStatus: e.target.value })}
+          >
+            <option value="">Select a status</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        </div>
+        
         <div className="p-2 flex justify-end gap-2">
-          <Button type="submit">
-            Submit
+          <Button type="submit" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-[3%]">
+            Create Event +
           </Button>
         </div>
       </form>
