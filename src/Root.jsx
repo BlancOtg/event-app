@@ -1,10 +1,11 @@
-import {createBrowserRouter, RouterProvider} from "react-router"
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import Home from './pages/Home';
 import Login from "./pages/login";
 import RootLayout from "./components/layout/RootLayout";
 import Events from "./pages/Events";
 import NewEvents from "./pages/NewEvents";
 import LogOut from "./pages/LogOut";
+import EventDetail from "./pages/EventDetail";
 
 const router = createBrowserRouter([
   {
@@ -20,12 +21,16 @@ const router = createBrowserRouter([
         element: <Login />
       },
       {
-        path: "/Events",
+        path: "/events",
         element: <Events />
       },
       {
-        path: "/NewEvents",
+        path: "/events/new",
         element: <NewEvents />
+      },
+      {
+        path: "/events/:id",
+        element: <EventDetail />
       },
       {
         path: "/logout",
