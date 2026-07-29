@@ -1,27 +1,45 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { events } from "../data/event";
+import { useEvent } from "../Hooks/useEvent.hook";
+import React, {useState, useEffect} from "react";
+import Button from "../components/Button"
 
 const EventDetail = () => {
   const { id } = useParams();
+  const [event,setEvent] = useState(null);
   const navigate = useNavigate();
+  const { getEventById, loading, error} = useEvent();
 
-  const event = events.find((e) => e.id === Number(id));
+useEffect(()=> {
+  const data = getEventById(id);
+  if (data){
+    setEvent(data);
+  }
+}, [id]);
 
-  if (!event) {
+if (loading) {
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <p className="text-white text-lg">Loading Event Details...</p>
+    </div>
+  );
+}
+
+  if (error || !event) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
+        {error}
         <div className="text-6xl">🔍</div>
         <h2 className="text-2xl font-semibold" style={{ color: "var(--text-h)" }}>
           Event Not Found
         </h2>
         <p className="text-gray-400">The event you're looking for doesn't exist.</p>
-        <button
+        <Button
           onClick={() => navigate("/events")}
           className="px-6 py-2 rounded-full text-white font-medium cursor-pointer"
           style={{ background: "var(--accent)" }}
         >
           ← Back to Events
-        </button>
+        </Button>
       </div>
     );
   }
@@ -49,14 +67,13 @@ const EventDetail = () => {
   return (
     <div className="max-w-3xl mx-auto">
       {/* Back button */}
-      <button
+      <Button
         onClick={() => navigate("/events")}
-        className="flex items-center gap-2 mb-6 text-sm font-medium cursor-pointer transition-opacity hover:opacity-70"
-        style={{ color: "var(--accent)" }}
+        className="flex items-center text-(--accent) gap-2 mb-6 text-sm font-medium cursor-pointer transition-opacity hover:opacity-70 bg-no"
       >
         <span>←</span>
         <span>Back to Events</span>
-      </button>
+      </Button>
 
       {/* Main card */}
       <div
@@ -193,6 +210,23 @@ const EventDetail = () => {
                 {formatDateTime(updatedAt)}
               </p>
             </div>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-wrap justify-between items-center gap-4 pt-2">
+            <Button
+              onClick={() => {}}
+              className="px-6 py-2 rounded-full bg-(--accent-bg) border-(--accent) border-2  text-white font-medium cursor-pointer"
+              style={{ background: "var(--accent)" }}
+            >
+              ✏️ Update Event
+            </Button>
+            <Button
+              onClick={() => {}}
+              className="px-6 py-2 rounded-full bg-[#ef4444] text-white font-medium cursor-pointer"
+            >
+              🗑️ Delete Event
+            </Button>
           </div>
         </div>
       </div>
