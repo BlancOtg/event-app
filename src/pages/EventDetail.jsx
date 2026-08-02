@@ -1,38 +1,43 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEvent } from "../Hooks/useEvent.hook";
-import React, {useState, useEffect} from "react";
-import Button from "../components/Button"
+import React, { useState, useEffect } from "react";
+import Button from "../components/Button";
 
 const EventDetail = () => {
   const { id } = useParams();
-  const [event,setEvent] = useState(null);
+  const [event, setEvent] = useState(null);
   const navigate = useNavigate();
-  const { getEventById, loading, error} = useEvent();
+  const { getEventById, loading, error } = useEvent();
 
-useEffect(()=> {
-  const data = getEventById(id);
-  if (data){
-    setEvent(data);
+
+  useEffect(() => {
+    const data = getEventById(id);
+    if (data) {
+      setEvent(data);
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-white text-lg">Loading Event Details...</p>
+      </div>
+    );
   }
-}, [id]);
-
-if (loading) {
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <p className="text-white text-lg">Loading Event Details...</p>
-    </div>
-  );
-}
-
   if (error || !event) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
         {error}
         <div className="text-6xl">🔍</div>
-        <h2 className="text-2xl font-semibold" style={{ color: "var(--text-h)" }}>
+        <h2
+          className="text-2xl font-semibold"
+          style={{ color: "var(--text-h)" }}
+        >
           Event Not Found
         </h2>
-        <p className="text-gray-400">The event you're looking for doesn't exist.</p>
+        <p className="text-gray-400">
+          The event you're looking for doesn't exist.
+        </p>
         <Button
           onClick={() => navigate("/events")}
           className="px-6 py-2 rounded-full text-white font-medium cursor-pointer"
@@ -44,7 +49,16 @@ if (loading) {
     );
   }
 
-  const { name, description, date, category, status, location, createdAt, updatedAt } = event;
+  // const {
+  //   name,
+  //   description,
+  //   date,
+  //   category,
+  //   status,
+  //   location,
+  //   createdAt,
+  //   updatedAt,
+  // } = event;
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -142,7 +156,10 @@ if (loading) {
                 background: "var(--code-bg)",
               }}
             >
-              <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text)" }}>
+              <span
+                className="text-xs uppercase tracking-wider"
+                style={{ color: "var(--text)" }}
+              >
                 Event Date
               </span>
               <span
@@ -179,7 +196,10 @@ if (loading) {
             }}
           >
             <div className="text-left">
-              <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text)" }}>
+              <p
+                className="text-xs uppercase tracking-wider mb-1"
+                style={{ color: "var(--text)" }}
+              >
                 Event Date
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
@@ -187,7 +207,10 @@ if (loading) {
               </p>
             </div>
             <div className="text-left">
-              <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text)" }}>
+              <p
+                className="text-xs uppercase tracking-wider mb-1"
+                style={{ color: "var(--text)" }}
+              >
                 Location
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
@@ -195,7 +218,10 @@ if (loading) {
               </p>
             </div>
             <div className="text-left">
-              <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text)" }}>
+              <p
+                className="text-xs uppercase tracking-wider mb-1"
+                style={{ color: "var(--text)" }}
+              >
                 Created
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
@@ -203,7 +229,10 @@ if (loading) {
               </p>
             </div>
             <div className="text-left">
-              <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "var(--text)" }}>
+              <p
+                className="text-xs uppercase tracking-wider mb-1"
+                style={{ color: "var(--text)" }}
+              >
                 Last Updated
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>

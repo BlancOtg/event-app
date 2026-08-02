@@ -16,10 +16,11 @@ const EventForm = () => {
         e.preventDefault();
         console.log(data);
       }}
-      className="flex flex-col gap-2 p-4 rounded shadow-md">
+      className="flex flex-col gap-2 p-4 rounded shadow-xl">
         <div className="p-2" flex flex-col gap-2>
           <label htmlFor="eventName" className="flex text-left">Event Name</label>
           <input
+            placeholder="EventName"
             type="text"
             name="eventName"
             id="eventName"
@@ -40,6 +41,7 @@ const EventForm = () => {
         <div className="p-2" flex flex-col gap-2>
           <label htmlFor="eventLocation" className="flex text-left">Event Location</label>
           <input
+          placeholder="Event Location"
             type="text"
             name="eventLocation"
             id="eventLocation"
@@ -50,13 +52,14 @@ const EventForm = () => {
         <div className="p-2" flex flex-col gap-2>
           <label htmlFor="eventDescription" className="flex text-left">Event Description</label>
           <textarea
+            placeholder="Event Description ...."
             name="eventDescription"
             id="eventDescription"
             className="border border-gray-300 rounded p-2 w-full"
             onChange={(e) => setData({ ...data, eventDescription: e.target.value })}
           ></textarea>
         </div>
-        <div className="p-2 flex flex-row gap-2 justify-around">
+        <div className="p-2 flex flex-row gap-2 justify-between">
 
         <div className="p-2 flex flex-col gap-2 w-2xl">
           <label htmlFor="eventCategory" className="flex text-left">Event Category</label>
@@ -90,8 +93,8 @@ const EventForm = () => {
 
         </div>
         
-        <div className="p-2 flex justify-end gap-2">
-          <Button type="submit" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-[3%]">
+        <div className="p-2 gap-2">
+          <Button type="submit" className="bg-purple-500 hover:bg-purple-700 w-full text-white font-bold py-2 px-4 rounded-[3%]">
             Create Event +
           </Button>
         </div>
