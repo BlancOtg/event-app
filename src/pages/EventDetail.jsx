@@ -7,7 +7,7 @@ const EventDetail = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const navigate = useNavigate();
-  const { getEventById, loading, error } = useEvent();
+  const { getEventById, loading, error, deleteEvent, updateEvent } = useEvent();
 
 
   useEffect(() => {
@@ -49,16 +49,16 @@ const EventDetail = () => {
     );
   }
 
-  // const {
-  //   name,
-  //   description,
-  //   date,
-  //   category,
-  //   status,
-  //   location,
-  //   createdAt,
-  //   updatedAt,
-  // } = event;
+  const {
+    name,
+    description,
+    date,
+    category,
+    status,
+    location,
+    createdAt,
+    updatedAt,
+  } = event;
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -211,7 +211,7 @@ const EventDetail = () => {
                 className="text-xs uppercase tracking-wider mb-1"
                 style={{ color: "var(--text)" }}
               >
-                Location
+                {location}
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
                 📍 {location}
@@ -222,7 +222,7 @@ const EventDetail = () => {
                 className="text-xs uppercase tracking-wider mb-1"
                 style={{ color: "var(--text)" }}
               >
-                Created
+                {createdAt}
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
                 {formatDateTime(createdAt)}

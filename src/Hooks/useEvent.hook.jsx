@@ -16,7 +16,7 @@ export const useEvent = () => {
   };
 
   const getEventById = (id) => {
-    const event = eventsData.find((event) => event.id === id);
+    const event = eventsData.find((event) => event.id === Number(id));
     if (!event) {
       return null;
     }
@@ -60,8 +60,8 @@ export const useEvent = () => {
   };
 
   return {
-    loading: false,
-    error: null,
+    loading,
+    error,
     eventsData,
     getEventById,
     createEvent,
