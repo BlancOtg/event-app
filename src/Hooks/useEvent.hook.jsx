@@ -35,7 +35,14 @@ export const useEvent = () => {
       createdAt: new Date().toISOString(),
       updatedAt: null,
     };
+    console.log("New Event Created:", newEvent);
     setEventsData([...eventsData, newEvent]);
+
+    return {
+      success: true,
+      message: "Event created successfully",
+      event: newEvent,
+    }
   };
   const updateEvent = (id, data) => {
     const eventToBeUpdated = eventsData.find((event) => event.id === id);

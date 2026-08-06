@@ -1,11 +1,13 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
-import Home from './pages/Home';
-import Login from "./pages/login";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/auth/Login";
 import RootLayout from "./components/layout/RootLayout";
 import Events from "./pages/Events";
 import NewEvents from "./pages/NewEvents";
-import LogOut from "./pages/LogOut";
+import LogOut from "./pages/auth/LogOut";
 import EventDetail from "./pages/EventDetail";
+import AuthLayout from "./components/layout/AuthLayout";
+import Register from "./pages/auth/Register";
 
 const router = createBrowserRouter([
   {
@@ -14,40 +16,45 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
-      {
-        path: "/login",
-        element: <Login />
-      },
+
       {
         path: "/events",
-        element: <Events />
+        element: <Events />,
       },
       {
         path: "/events/new",
-        element: <NewEvents />
+        element: <NewEvents />,
       },
       {
         path: "/events/:id",
-        element: <EventDetail />
+        element: <EventDetail />,
       },
       {
         path: "/logout",
-        element: <LogOut />
-      }
-    ]
-  }
-
-
-])
+        element: <LogOut />,
+      },
+    ],
+  },
+  {
+    path: "",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+    ],
+  },
+]);
 
 function Root() {
-  
-
-  return (
-    <RouterProvider router={router} />
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default Root
+export default Root;

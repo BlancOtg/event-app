@@ -1,10 +1,15 @@
 import EventCard from "../components/EventCard";
 import { events } from "../data/event";
 import { useEvent } from "../Hooks/useEvent.hook";
+import { useEventStore } from "../store/events.store";
 
 const Events = () => {
-  const data = events;
-  const { eventsData, loading, error , updateEvent, deleteEvent} = useEvent();
+
+  const events = useEventStore((state) => state.events);
+  const loading = useEventStore((state) => state.loading);
+  const error = useEventStore((state) => state.error);
+  const deleteEvent = useEventStore((state) => state.deleteEvent);
+  const updateEvent = useEventStore((state) => state.updateEvent);
 
 
   return (
@@ -18,8 +23,8 @@ const Events = () => {
           <div className="flex justify-center items-center h-40">
             <p className="text-red-500 text-lg font-bold">Error: {error}</p>
           </div>
-        ) : eventsData.length > 0 ? (
-          eventsData.map((event) => (
+        ) : events.length > 0 ? (
+          events.map((event) => (
             <EventCard
               key={event.id}
               event={event}

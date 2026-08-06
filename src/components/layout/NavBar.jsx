@@ -27,6 +27,7 @@ const NavBar = () => {
           <Link to="/LogOut" className="gap-2.5 flex">
             Logout <LogOut className="w-6 h-6 gap-1.5" />
           </Link>
+          <Link to="/login">login</Link>
         </div>
       </div>
       {isVisible && (

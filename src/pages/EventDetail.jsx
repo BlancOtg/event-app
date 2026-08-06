@@ -1,21 +1,19 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEvent } from "../Hooks/useEvent.hook";
 import React, { useState, useEffect } from "react";
 import Button from "../components/Button";
+import { useEventStore } from "../store/events.store";
 
 const EventDetail = () => {
   const { id } = useParams();
-  const [event, setEvent] = useState(null);
+  // const [event, setEvent] = useState(null);
   const navigate = useNavigate();
-  const { getEventById, loading, error, deleteEvent, updateEvent } = useEvent();
+const event = useEventStore((state) => state.eventById(id));
+const loading = useEventStore((state) => state.loading);
+const error = useEventStore((state) => state.error);
+const updateEvent = useEventStore((state) => state.updateEvent);
+const deleteEvent = useEventStore((state) => state.deleteEvent);
 
 
-  useEffect(() => {
-    const data = getEventById(id);
-    if (data) {
-      setEvent(data);
-    }
-  }, [id]);
 
   if (loading) {
     return (
@@ -49,16 +47,7 @@ const EventDetail = () => {
     );
   }
 
-  const {
-    name,
-    description,
-    date,
-    category,
-    status,
-    location,
-    createdAt,
-    updatedAt,
-  } = event;
+
 
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString("en-US", {
@@ -77,6 +66,8 @@ const EventDetail = () => {
       minute: "2-digit",
     });
   };
+
+  const { name, date, location, description, category, status, createdAt, updatedAt } = event;
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -244,14 +235,14 @@ const EventDetail = () => {
           {/* Action buttons */}
           <div className="flex flex-wrap justify-between items-center gap-4 pt-2">
             <Button
-              onClick={() => {}}
+              onClick={() => {updateEvent(id); navigate("/events/new");}}
               className="px-6 py-2 rounded-full bg-(--accent-bg) border-(--accent) border-2  text-white font-medium cursor-pointer"
               style={{ background: "var(--accent)" }}
             >
               ✏️ Update Event
             </Button>
             <Button
-              onClick={() => {}}
+              onClick={() => {deleteEvent(id); navigate("/events");}}
               className="px-6 py-2 rounded-full bg-[#ef4444] text-white font-medium cursor-pointer"
             >
               🗑️ Delete Event
