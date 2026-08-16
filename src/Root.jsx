@@ -4,7 +4,6 @@ import Login from "./pages/auth/Login";
 import RootLayout from "./components/layout/RootLayout";
 import Events from "./pages/Events";
 import NewEvents from "./pages/NewEvents";
-import LogOut from "./pages/auth/LogOut";
 import EventDetail from "./pages/EventDetail";
 import AuthLayout from "./components/layout/AuthLayout";
 import Register from "./pages/auth/Register";
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
       {
         path: "/events/:id",
         element: <EventDetail />,
-      },
-      {
-        path: "/logout",
-        element: <LogOut />,
       },
     ],
   },

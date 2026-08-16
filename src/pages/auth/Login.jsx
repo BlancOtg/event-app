@@ -9,6 +9,7 @@ import { Eye, EyeOff } from "lucide-react";
 const Login = () => {
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
+  const session = setSessionStore((state) => state.setSession);
   // const login = useAuthStore((s) => s.login);
   // const setSession = useSessionStore((s) => s.setSession);
 
@@ -43,10 +44,11 @@ const Login = () => {
       return;
     }
       const result = login(form);
-    // const result = login(form);
     if (result.success) {
       // setSession(result.user);
       toast.success(result.message);
+      const user = res.data;
+      session(user)
       navigate("/events");
     } else {
       toast.error(result.message);
@@ -54,16 +56,16 @@ const Login = () => {
   };
 
   const inputBase =
-    "w-full border border-[var(--border)] bg-transparent rounded-lg px-4 py-2.5 text-sm text-[var(--text-h)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition";
+    "w-full border border-(--border) bg-transparent rounded-lg px-4 py-2.5 text-sm text-(--text-h) placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition";
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] gap-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-semibold text-[var(--text-h)]">
+          <h2 className="text-3xl font-semibold text-(--text-h)">
             Welcome back
           </h2>
-          <p className="text-sm text-[var(--text)] mt-1">
+          <p className="text-sm text-(--text) mt-1">
             Log in to your account to continue.
           </p>
         </div>
@@ -71,12 +73,12 @@ const Login = () => {
         <form
           onSubmit={handleSubmit}
           noValidate
-          className="flex flex-col gap-4 p-6 rounded-2xl shadow-xl bg-[var(--bg)] border border-[var(--border)]"
+          className="flex flex-col gap-4 p-6 rounded-2xl shadow-xl bg-(--bg) border border-(--border)"
         >
           <div className="text-left">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-[var(--text-h)] mb-1.5"
+              className="block text-sm font-medium text-(--text-h) mb-1.5"
             >
               Email
             </label>
@@ -97,7 +99,7 @@ const Login = () => {
           <div className="text-left">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-[var(--text-h)] mb-1.5"
+              className="block text-sm font-medium text-(--text-h) mb-1.5"
             >
               Password
             </label>
@@ -114,7 +116,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[var(--text-h)]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-(--text-h)"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -130,7 +132,7 @@ const Login = () => {
           </Button>
         </form>
 
-        <p className="text-sm text-[var(--text)] mt-4 text-center">
+        <p className="text-sm text-(--text) mt-4 text-center">
           Don't have an account?{" "}
           <Link
             to="/register"

@@ -55,10 +55,12 @@ const useAuthStore = create()(
           };
         }
 
+        const { password, ...CleanedUser} = user
+
         return {
           success: true,
           message: "Welcome back!",
-          data: user,
+          data: cleanedUser,
         };
       },
     }),

@@ -4,8 +4,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 const useSessionStore = create()(
   persist(
     (set) => ({
-      user: null,
+      user:null,
       session: null,
+      loading:false,
+      error:null,
 
       setSession: (user) => set({ session: user, user }),
 
