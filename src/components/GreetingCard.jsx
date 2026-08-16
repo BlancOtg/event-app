@@ -1,10 +1,13 @@
+import useSessionStore from "../store/session.store";
+
 const GreetingCard = () => {
-  const name = 'John Doe';
+  const user = useSessionStore((state) => state.user);
+
   return (
     <div className="flex items-center gap-5 flex-col justify-center p-4 rounded shadow-md">
-      <p1>welcome {name}</p1>
+      <p>welcome {user ? user.name : "guest"}</p>
     </div>
-  )
-}
+  );
+};
 
-export default GreetingCard
+export default GreetingCard;

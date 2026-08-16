@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { events as seedEvents } from "../data/event";
+
+const createId = () =>
+  globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
 
 export const useEventStore = create()(
   persist(
     (set, get) => ({
-      events: [],
-      loading: false,
-      error: null,
+      events: seedEvents,
       eventById: (id) => {
         const event = get().events.find(
           (event) => String(event.id) === String(id),
@@ -19,7 +21,7 @@ export const useEventStore = create()(
             ...state.events,
             {
               ...event,
-              id: state.events.length + 1,
+              id: createId(),
               createdAt: new Date().toISOString(),
               updatedAt: null,
             },
@@ -33,9 +35,12 @@ export const useEventStore = create()(
               : event,
           ),
         })),
-      deleteEvent: (id) => set((state) => ({
-        events: state.events.filter((event) => String(event.id) !== String(id)),
-      })),
+      deleteEvent: (id) =>
+        set((state) => ({
+          events: state.events.filter(
+            (event) => String(event.id) !== String(id),
+          ),
+        })),
     }),
     {
       name: "event-storage",

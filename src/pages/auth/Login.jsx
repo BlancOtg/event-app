@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import useAuthStore from "../../store/auth.store";
 import useSessionStore from "../../store/session.store";
@@ -8,9 +8,9 @@ import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const login = useAuthStore((s) => s.login);
-  // const login = useAuthStore((s) => s.login);
-  // const setSession = useSessionStore((s) => s.setSession);
+  const setSession = useSessionStore((s) => s.setSession);
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -42,12 +42,11 @@ const Login = () => {
       setErrors(newErrors);
       return;
     }
-      const result = login(form);
-    // const result = login(form);
+    const result = login(form);
     if (result.success) {
-      // setSession(result.user);
+      setSession(result.user);
       toast.success(result.message);
-      navigate("/events");
+      navigate(location.state?.from ?? "/events", { replace: true });
     } else {
       toast.error(result.message);
     }

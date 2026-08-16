@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+const withoutPassword = ({ password: _password, ...user }) => user;
+
 const useAuthStore = create()(
   persist(
     (set, get) => ({
@@ -31,7 +33,7 @@ const useAuthStore = create()(
         return {
           success: true,
           message: "Account created successfully! Please log in.",
-          user: newUser,
+          user: withoutPassword(newUser),
         };
       },
 
@@ -58,7 +60,7 @@ const useAuthStore = create()(
         return {
           success: true,
           message: "Welcome back!",
-          data: user,
+          user: withoutPassword(user),
         };
       },
     }),
