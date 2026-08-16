@@ -1,19 +1,17 @@
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from "tailwind-merge";
 
-const Button = ({ onClick, children, type = "button", className = "",  }) => {
+const Button = ({ children, type = "button", className = "", ...props }) => {
   return (
-    <div>
-      <button
-        onClick={onClick}
-        type={type}
-        className={twMerge(
-          "bg-purple-500 hover:bg-purple-700 h-fit text-white font-bold py-2 px-5 rounded-full",
-          className
-        )}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      type={type}
+      className={twMerge(
+        "bg-purple-500 hover:bg-purple-700 h-fit text-white font-bold py-2 px-5 rounded-full cursor-pointer",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
   );
 };
 

@@ -4,49 +4,65 @@ import Login from "./pages/auth/Login";
 import RootLayout from "./components/layout/RootLayout";
 import Events from "./pages/Events";
 import NewEvents from "./pages/NewEvents";
+import EditEvent from "./pages/EditEvent";
 import LogOut from "./pages/auth/LogOut";
 import EventDetail from "./pages/EventDetail";
 import AuthLayout from "./components/layout/AuthLayout";
+import RequireAuth from "./components/layout/RequireAuth";
 import Register from "./pages/auth/Register";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <NotFound />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Home />,
       },
-
       {
-        path: "/events",
-        element: <Events />,
+        element: <RequireAuth />,
+        children: [
+          {
+            path: "events",
+            element: <Events />,
+          },
+          {
+            path: "events/new",
+            element: <NewEvents />,
+          },
+          {
+            path: "events/:id",
+            element: <EventDetail />,
+          },
+          {
+            path: "events/:id/edit",
+            element: <EditEvent />,
+          },
+        ],
       },
       {
-        path: "/events/new",
-        element: <NewEvents />,
-      },
-      {
-        path: "/events/:id",
-        element: <EventDetail />,
-      },
-      {
-        path: "/logout",
+        path: "logout",
         element: <LogOut />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
   {
-    path: "",
+    path: "/",
     element: <AuthLayout />,
     children: [
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
     ],

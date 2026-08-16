@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import useAuthStore from "../../store/auth.store";
-import useSessionStore from "../../store/session.store";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const navigate = useNavigate();
   const register = useAuthStore((s) => s.register);
-  const setSession = useSessionStore((s) => s.setSession);
 
   const [form, setForm] = useState({
     name: "",
@@ -56,14 +54,13 @@ const Register = () => {
       return;
     }
 
-    const { confirmPassword, ...payload } = form;
+    const { confirmPassword: _confirmPassword, ...payload } = form;
     const result = register({
       ...payload,
       role: "user",
     });
 
     if (result.success) {
-      setSession(result.user);
       toast.success(result.message);
       navigate("/login");
     } else {

@@ -1,10 +1,17 @@
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import useSessionStore from "../../store/session.store";
 
 const LogOut = () => {
-  return (
-    <div>
-      <h1>Log Out</h1>
-    </div>
-  )
-}
+  const clearSession = useSessionStore((s) => s.clearSession);
 
-export default LogOut
+  useEffect(() => {
+    clearSession();
+    toast.success("You have been logged out.", { toastId: "logout" });
+  }, [clearSession]);
+
+  return <Navigate to="/login" replace />;
+};
+
+export default LogOut;

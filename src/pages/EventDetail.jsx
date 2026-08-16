@@ -1,31 +1,36 @@
 import { useParams, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
 import Button from "../components/Button";
 import { useEventStore } from "../store/events.store";
 
+const formatDate = (dateStr) => {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const formatDateTime = (dateStr) => {
+  if (!dateStr) return "—";
+  return new Date(dateStr).toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 const EventDetail = () => {
   const { id } = useParams();
-  // const [event, setEvent] = useState(null);
   const navigate = useNavigate();
-const event = useEventStore((state) => state.eventById(id));
-const loading = useEventStore((state) => state.loading);
-const error = useEventStore((state) => state.error);
-const updateEvent = useEventStore((state) => state.updateEvent);
-const deleteEvent = useEventStore((state) => state.deleteEvent);
+  const event = useEventStore((state) => state.eventById(id));
+  const deleteEvent = useEventStore((state) => state.deleteEvent);
 
-
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-white text-lg">Loading Event Details...</p>
-      </div>
-    );
-  }
-  if (error || !event) {
+  if (!event) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-        {error}
         <div className="text-6xl">🔍</div>
         <h2
           className="text-2xl font-semibold"
@@ -36,36 +41,10 @@ const deleteEvent = useEventStore((state) => state.deleteEvent);
         <p className="text-gray-400">
           The event you're looking for doesn't exist.
         </p>
-        <Button
-          onClick={() => navigate("/events")}
-          className="px-6 py-2 rounded-full text-white font-medium cursor-pointer"
-          style={{ background: "var(--accent)" }}
-        >
-          ← Back to Events
-        </Button>
+        <Button onClick={() => navigate("/events")}>← Back to Events</Button>
       </div>
     );
   }
-
-
-
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatDateTime = (dateStr) => {
-    return new Date(dateStr).toLocaleString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   const { name, date, location, description, category, status, createdAt, updatedAt } = event;
 
@@ -74,7 +53,7 @@ const deleteEvent = useEventStore((state) => state.deleteEvent);
       {/* Back button */}
       <Button
         onClick={() => navigate("/events")}
-        className="flex items-center text-(--accent) gap-2 mb-6 text-sm font-medium cursor-pointer transition-opacity hover:opacity-70 bg-no"
+        className="flex items-center text-(--accent) gap-2 mb-6 text-sm font-medium transition-opacity hover:opacity-70 bg-transparent hover:bg-transparent"
       >
         <span>←</span>
         <span>Back to Events</span>
@@ -202,7 +181,7 @@ const deleteEvent = useEventStore((state) => state.deleteEvent);
                 className="text-xs uppercase tracking-wider mb-1"
                 style={{ color: "var(--text)" }}
               >
-                {location}
+                Location
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
                 📍 {location}
@@ -213,7 +192,7 @@ const deleteEvent = useEventStore((state) => state.deleteEvent);
                 className="text-xs uppercase tracking-wider mb-1"
                 style={{ color: "var(--text)" }}
               >
-                {createdAt}
+                Created
               </p>
               <p className="font-medium" style={{ color: "var(--text-h)" }}>
                 {formatDateTime(createdAt)}
@@ -234,16 +213,15 @@ const deleteEvent = useEventStore((state) => state.deleteEvent);
 
           {/* Action buttons */}
           <div className="flex flex-wrap justify-between items-center gap-4 pt-2">
-            <Button
-              onClick={() => {updateEvent(id); navigate("/events/new");}}
-              className="px-6 py-2 rounded-full bg-(--accent-bg) border-(--accent) border-2  text-white font-medium cursor-pointer"
-              style={{ background: "var(--accent)" }}
-            >
+            <Button onClick={() => navigate(`/events/${id}/edit`)}>
               ✏️ Update Event
             </Button>
             <Button
-              onClick={() => {deleteEvent(id); navigate("/events");}}
-              className="px-6 py-2 rounded-full bg-[#ef4444] text-white font-medium cursor-pointer"
+              onClick={() => {
+                deleteEvent(id);
+                navigate("/events");
+              }}
+              className="bg-[#ef4444] hover:bg-red-700"
             >
               🗑️ Delete Event
             </Button>
