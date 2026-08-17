@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useSessionStore from "../../store/session.store";
+import { useAuth } from "../../providers/AuthProvider";
 
 const LogOut = () => {
-  const clearSession = useSessionStore((s) => s.clearSession);
+  const { logout } = useAuth();
 
   useEffect(() => {
-    clearSession();
+    logout();
     toast.success("You have been logged out.", { toastId: "logout" });
-  }, [clearSession]);
+  }, [logout]);
 
   return <Navigate to="/login" replace />;
 };

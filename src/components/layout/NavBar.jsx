@@ -1,11 +1,11 @@
 import { Calendars, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import useSessionStore from "../../store/session.store";
+import { useAuth } from "../../providers/AuthProvider";
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const user = useSessionStore((state) => state.user);
+  const { session, isAuthenticated } = useAuth();
 
   const links = (
     <>
@@ -15,9 +15,9 @@ const NavBar = () => {
       <Link to="/events/new" onClick={() => setIsVisible(false)}>
         Create Event
       </Link>
-      {user ? (
+      {isAuthenticated ? (
         <>
-          <div>Hi {user.name}</div>
+          <div>Hi {session.name}</div>
           <Link
             to="/logout"
             onClick={() => setIsVisible(false)}
