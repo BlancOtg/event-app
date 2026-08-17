@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import useSessionStore from "./session.store";
 
 const useAuthStore = create()(
   persist(
@@ -55,7 +56,7 @@ const useAuthStore = create()(
           };
         }
 
-        const { password, ...CleanedUser} = user
+        const { password, ...cleanedUser} = user
 
         return {
           success: true,

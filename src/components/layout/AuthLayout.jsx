@@ -2,15 +2,11 @@ import React from "react";
 import Button from "../../components/Button";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { MoveLeft, Calendars } from "lucide-react";
-import { AuthContext } from "../../context/AuthContext";
-import useAuthStore from "../../store/auth.store";
 
 const AuthLayout = () => {
   const navigate = useNavigate();
-  const user = useAuthStore((s) => s.user);
 
   return (
-    <AuthContext.provider value={user}>
       <div className="min-h-screen flex flex-col bg-(--bg)">
         <header className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-(--border)">
           <Link
@@ -37,7 +33,6 @@ const AuthLayout = () => {
           © {new Date().getFullYear()} Event App. All rights reserved.
         </footer>
       </div>
-    </AuthContext.provider>
   );
 };
 

@@ -1,9 +1,14 @@
 import { Calendars, X } from "lucide-react";
 import { useState } from "react";
+import Button from "../Button";
 import { Menu } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../providers/AuthProvider";
 const NavBar = () => {
+  const { session, isAuthenticated, logout } = useAuth();
+  console.log(session, isAuthenticated());
+
   const [isVisible, setIsVisible] = useState(false);
   return (
     <div>
@@ -23,24 +28,35 @@ const NavBar = () => {
         <div className="hidden lg:flex flex-wrap p-2 gap-4">
           <Link to="/events">My Event</Link>
           <Link to="/events/new">Create Event</Link>
-          <div className="2xl">Hi Emmanuel</div>
-          <Link to="/LogOut" className="gap-2.5 flex">
-            Logout <LogOut className="w-6 h-6 gap-1.5" />
-          </Link>
-          <Link to="/login">login</Link>
+
+         {isAuthenticated() ? (
+          <>
+          <p className="text-gray-800 dark:text-(--text)">Welcome {session.name.split("")[0]}</p>
+          <Button onClick={logout}><LogOut /></Button>
+          </>
+         ) : (
+          <Link to="/login">
+            <p className="text-gray-800 dark:text-(--text) px-2 border-2 rounded-2xl border-(--accent)">
+              login
+            </p>
+            </Link>
+         )}
+
+          
         </div>
       </div>
       {isVisible && (
-        <div 
-        style={{ backgroundColor: "var(--bg)" }}
-        className="p-4 text-right  flex justify-end flex-col lg:hidden gap-4 absolute top-0 right-0 ">
-            <X className=" cursor-pointer mx-5" onClick={ () => setIsVisible(!isVisible)} />
+        <div
+          style={{ backgroundColor: "var(--bg)" }}
+          className="p-4 text-right  flex justify-end flex-col lg:hidden gap-4 absolute top-0 right-0 "
+        >
+          <X
+            className=" cursor-pointer mx-5"
+            onClick={() => setIsVisible(!isVisible)}
+          />
           <Link to="/events">My Event</Link>
           <Link to="/events/new">Create Event</Link>
-          <div className="2xl">Hi Emmanuel</div>
-          <Link to="/LogOut" className="gap-2.5 cursor-pointer justify-end flex">
-            Logout <LogOut className="w-6 h-6 gap-1.5" />
-          </Link>
+          <LogOut className="w-6 h-6 gap-1.5" />
         </div>
       )}
     </div>

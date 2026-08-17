@@ -1,15 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+
 const useSessionStore = create()(
   persist(
-    (set) => ({
-      user:null,
+    (set, get) => ({
       session: null,
-      loading:false,
-      error:null,
+      isAuthenticated: () => !!get().session,
 
-      setSession: (user) => set({ session: user, user }),
+      setSession: (user) => set({ session: user }),
 
       clearSession: () => set({ session: null, user: null }),
     }),

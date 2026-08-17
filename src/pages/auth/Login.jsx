@@ -9,9 +9,7 @@ import { Eye, EyeOff } from "lucide-react";
 const Login = () => {
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
-  const session = setSessionStore((state) => state.setSession);
-  // const login = useAuthStore((s) => s.login);
-  // const setSession = useSessionStore((s) => s.setSession);
+  const setSession = useSessionStore((state) => state.setSession);
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -43,15 +41,14 @@ const Login = () => {
       setErrors(newErrors);
       return;
     }
-      const result = login(form);
-    if (result.success) {
-      // setSession(result.user);
-      toast.success(result.message);
-      const user = res.data;
-      session(user)
+    const result = login(form);
+    const { success, message, data } = result;
+    if (success) {
+      setSession(data);
+      toast.success(message);
       navigate("/events");
     } else {
-      toast.error(result.message);
+      toast.error(message);
     }
   };
 
